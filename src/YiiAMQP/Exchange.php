@@ -56,11 +56,6 @@ class Exchange extends \CComponent
     public $vhost = '/';
 
     /**
-     * @var null|string the default routing key for the exchange
-     */
-    public $routingKey = null;
-
-    /**
      * @var Client the AMQP connection this exchange belongs to
      */
     protected $_client;
@@ -152,12 +147,6 @@ class Exchange extends \CComponent
             $this->isDurable,
             $this->autoDelete
         );
-        
-         if ($this->routingKey === null)
-             $this->routingKey = $this->name;
-         
-        
-        $this->getQueue()->bind($this, $this->routingKey);
         $this->setIsInitialized(true);
     }
 
@@ -167,11 +156,9 @@ class Exchange extends \CComponent
      * @param string|AMQPMessage $message the message to send
      * @param string $routingKey the routing key to use
      */
-    public function send($message, $routingKey = null)
+    public function send($message, $routingKey = "")
     {
         $this->init();
-        if ($routingKey === null)
-            $routingKey = $this->routingKey;
         if (!($message instanceof AMQPMessage))
             $message = $this->createMessage($message);
         $this->getClient()->getChannel()->basic_publish($message, $this->name, $routingKey);

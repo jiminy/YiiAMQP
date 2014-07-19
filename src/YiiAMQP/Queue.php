@@ -149,7 +149,7 @@ class Queue extends \CComponent
      * @param Exchange $exchange the exchange to bind
      * @param null $routingKey the routing key to use
      */
-    public function bind(Exchange $exchange, $routingKey = null)
+    public function bind(Exchange $exchange, $routingKey = "")
     {
         $this->init();
         $this->getClient()->getChannel()->queue_bind($this->getIdentifier(), $exchange->name, $routingKey);
