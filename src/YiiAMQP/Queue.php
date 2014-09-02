@@ -49,6 +49,18 @@ class Queue extends \CComponent
     public $autoDelete = true;
 
     /**
+     * @var bool
+     */
+    public $noWait = false;
+
+    /**
+     * A set of arguments for the declaration.
+     * The syntax and semantics of these arguments depends on the server implementation.
+     * @var array
+     */
+    public $arguments;
+
+    /**
      * @var string the queue status
      */
     public $status;
@@ -138,7 +150,9 @@ class Queue extends \CComponent
             $this->isPassive,
             $this->isDurable,
             $this->isExclusive,
-            $this->autoDelete
+            $this->autoDelete,
+            $this->noWait,
+            $this->arguments
         );
         $this->_identifier = array_shift($response);
         $this->setIsInitialized(true);
